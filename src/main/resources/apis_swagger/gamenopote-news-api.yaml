@@ -1,0 +1,333 @@
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: API Game No Pote - News
+host: gamenopote.swagger.io
+basePath: /v1
+tags:
+  - name: news
+schemes: 
+  - http
+paths:
+  /news:
+    get:
+      tags:
+        - news
+      summary: news recovery
+      description: news recovery
+      operationId: retrieveNews
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/News'
+        '400':
+          description: not found
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: internal server error
+          schema:
+            $ref: '#/definitions/Error'
+    post:
+      tags: 
+        - news
+      summary: create a news
+      description: create a news
+      operationId: createNews
+      consumes: 
+        - application/json
+      produces: 
+        - application/json
+      parameters: 
+        - in: body
+          name: newsRequisition
+          description: parameters to create a news
+          required: true
+          schema:
+            $ref: '#/definitions/PostNews'
+      responses:
+        '201':
+          description: created
+          schema:
+            $ref: '#/definitions/News'
+        '400':
+          description: not found
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: internal server error
+          schema:
+            $ref: '#/definitions/Error'
+  '/news/{id}':
+    get:
+      tags: 
+        - news
+      summary: retrieve a news by id
+      description: retrieve a news by id
+      operationId: retrieveNewsById
+      produces: 
+        - application/json
+      parameters: 
+        - in: path
+          name: id
+          description: news's id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: created
+          schema:
+            $ref: '#/definitions/News'
+        '400':
+          description: not found
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: internal server error
+          schema:
+            $ref: '#/definitions/Error'
+    put:
+      tags: 
+       - news
+      summary: up to date a news 
+      description: up to date a news
+      operationId: updateNews
+      consumes: 
+        - application/json
+      produces:
+        - application/json
+      parameters: 
+        - in: path
+          name: id
+          description: news's id
+          required: true
+          type: string
+        - in: body
+          name: newsRequisition
+          description: parameters to create a news
+          required: true
+          schema:
+            $ref: '#/definitions/PostNews'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/News'
+        '400':
+          description: not found
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: internal server error
+          schema:
+            $ref: '#/definitions/Error'
+    delete:
+      tags: 
+       - news
+      summary: delete a news
+      description: delete a news
+      operationId: deleteNews
+      produces: 
+        - application/json
+      parameters: 
+        - in: path
+          name: id
+          description: news's id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: not found
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: internal server error
+          schema:
+            $ref: '#/definitions/Error'
+definitions:
+  Error:
+    description: represents the error's messages on api
+    type: object
+    properties:
+      codigo_http: 
+        description: 'Status codes of Http. Ex: 400, 404, 500'
+        type: integer
+      message_http:
+        description: 'Status messages of Http. Ex: bad request, not found'
+        type: string
+      description:
+        description: More details about the problem
+        type: string
+  News:
+    description: represents a news object
+    type: object
+    properties:
+      id:
+        description: news's id
+        type: string
+      title:
+        description: news's title
+        type: string
+      subtitle:
+        description: news's subtitle
+        type: string
+      created_in:
+        description: date of news creation
+        type: string
+        format: date-time
+      updated_in:
+        description: date of news update
+        type: string
+        format: date-time
+      time_passed:
+        description: how much time has passed since the news was posted
+        type: string
+      author:
+          $ref: '#/definitions/User'
+      text: 
+        description: news text
+        type: string
+      type:
+        description: news type
+        type: string
+        enum: 
+          - news
+          - review
+          - article
+      medias:
+        description: a list of news media
+        type: array
+        items:
+          $ref: '#/definitions/Media'
+      comments:
+        description: a list of news comments
+        type: array
+        items:
+          $ref: '#/definitions/Comment'
+      comments_number:
+        description: number of comments
+        type: integer
+      tags:
+        description: number of tags
+        type: array
+        items:
+          $ref: '#/definitions/Tag'
+  PostNews:
+    description: body of news object to post and put operations
+    type: object
+    required: 
+      - title
+      - subtitle
+      - text
+      - type
+      - medias
+      - tags
+    properties:
+      title:
+        description: news's title
+        type: string
+      subtitle:
+        description: news's subtitle
+        type: string
+      text: 
+        description: news text
+        type: string
+      type:
+        description: news type
+        type: string
+        enum: 
+          - news
+          - review
+          - article
+      medias:
+        description: a list of news media
+        type: array
+        items:
+          $ref: '#/definitions/Media'
+      tags:
+        description: number of tags
+        type: array
+        items:
+          $ref: '#/definitions/Tag'
+  User:
+    description: site's user
+    type: object
+    properties:
+      first_name:
+        description: user's first name
+        type: string
+      last_name:
+        description: user's last name
+        type: string
+      user_name:
+        description: user name
+        type: string
+      password:
+        description: user's password
+        type: string
+      email:
+        description: user's email address
+        type: string
+      type:
+        description: "user's type. Ex: Author, vip, ordinary"
+        type: string
+        enum: 
+          - author
+          - vip
+          - ordinary_user
+      image:
+        description: user's photo
+        type: string
+        format: binary
+  Comment:
+    description: a comment related to the news
+    type: object
+    properties:
+      user:
+        $ref: '#/definitions/User'
+      text:
+        description: user's comment
+        type: string
+      created_in:
+        description: posting date of comment
+        type: string
+        format: date-time
+      updated_in:
+        description: posting date of comment
+        type: string
+        format: date-time
+  Media:
+    description: a url of image or video
+    type: object
+    properties:
+      id:
+        description: media's id
+        type: string
+      url:
+        description: media's url
+        type: string
+      type:
+        description: media's type
+        type: string
+        enum: 
+          - video
+          - image
+  Tag:
+    description: represents a subject of the news
+    type: object
+    properties:
+      id:
+        description: tag's id
+        type: string
+      name:
+        description: tag's name
+        type: string
+      time_passed:
+        description: how much time has passed since the comment was posted
+        type: string
+
