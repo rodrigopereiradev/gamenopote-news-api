@@ -2,6 +2,7 @@ package br.com.gamenopote.gamenopotenewsapi.domains;
 
 import br.com.gamenopote.gamenopotenewsapi.domains.commons.BaseEntity;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.*;
 
 @Entity
@@ -33,8 +34,16 @@ public class User extends BaseEntity {
     @OneToOne(cascade = CascadeType.ALL)
     private Person person;
 
+    @OneToMany(mappedBy = "user")
+    @JoinColumn(name = "user_id")
+    private List<Comment> comments;
+
+    @OneToMany(mappedBy = "user")
+    @JoinColumn(name = "user_id")
+    private List<News> news;
+
     public User(String userName, String password, UserType type, Date createdIn, Date updated_in,
-                Boolean isEnabled, Person person) {
+                Boolean isEnabled, Person person, List<Comment> comments, List<News> news) {
         this.userName = userName;
         this.password = password;
         this.type = type;
@@ -42,6 +51,8 @@ public class User extends BaseEntity {
         this.updated_in = updated_in;
         this.isEnabled = isEnabled;
         this.person = person;
+        this.comments = comments;
+        this.news = news;
     }
 
     public String getUserName() {
@@ -84,7 +95,7 @@ public class User extends BaseEntity {
         this.updated_in = updated_in;
     }
 
-    public Boolean getEnabled() {
+    public Boolean isEnabled() {
         return isEnabled;
     }
 
@@ -98,6 +109,22 @@ public class User extends BaseEntity {
 
     public void setPerson(Person person) {
         this.person = person;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public List<News> getNews() {
+        return news;
+    }
+
+    public void setNews(List<News> news) {
+        this.news = news;
     }
 
     @Override
@@ -114,7 +141,9 @@ public class User extends BaseEntity {
         if (createdIn != null ? !createdIn.equals(user.createdIn) : user.createdIn != null) return false;
         if (updated_in != null ? !updated_in.equals(user.updated_in) : user.updated_in != null) return false;
         if (isEnabled != null ? !isEnabled.equals(user.isEnabled) : user.isEnabled != null) return false;
-        return person != null ? person.equals(user.person) : user.person == null;
+        if (person != null ? !person.equals(user.person) : user.person != null) return false;
+        if (comments != null ? !comments.equals(user.comments) : user.comments != null) return false;
+        return news != null ? news.equals(user.news) : user.news == null;
     }
 
     @Override
@@ -127,6 +156,8 @@ public class User extends BaseEntity {
         result = 31 * result + (updated_in != null ? updated_in.hashCode() : 0);
         result = 31 * result + (isEnabled != null ? isEnabled.hashCode() : 0);
         result = 31 * result + (person != null ? person.hashCode() : 0);
+        result = 31 * result + (comments != null ? comments.hashCode() : 0);
+        result = 31 * result + (news != null ? news.hashCode() : 0);
         return result;
     }
 
@@ -140,6 +171,8 @@ public class User extends BaseEntity {
                 ", updated_in=" + updated_in +
                 ", isEnabled=" + isEnabled +
                 ", person=" + person +
+                ", comments=" + comments +
+                ", news=" + news +
                 '}';
     }
 }
