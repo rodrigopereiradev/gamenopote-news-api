@@ -284,6 +284,17 @@ definitions:
         description: user's photo
         type: string
         format: binary
+      created_in:
+        description: posting date of comment
+        type: string
+        format: date-time
+      updated_in:
+        description: posting date of comment
+        type: string
+        format: date-time
+      is_enabled:
+        description: the user is enabled or not
+        type: boolean
   Comment:
     description: a comment related to the news
     type: object

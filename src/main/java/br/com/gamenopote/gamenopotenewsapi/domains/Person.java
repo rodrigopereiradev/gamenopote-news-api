@@ -2,9 +2,7 @@ package br.com.gamenopote.gamenopotenewsapi.domains;
 
 import br.com.gamenopote.gamenopotenewsapi.domains.commons.BaseEntity;
 import java.util.Arrays;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "person")
@@ -18,6 +16,10 @@ public class Person extends BaseEntity {
 
     @Column(name = "person_image")
     private Byte[] image;
+
+    @JoinColumn(name = "email_id")
+    @OneToOne(cascade = CascadeType.ALL)
+    private Email email;
 
     public Person(String firstName, String lastName, Byte[] image) {
         this.firstName = firstName;
@@ -49,6 +51,21 @@ public class Person extends BaseEntity {
         this.image = image;
     }
 
+    public Email getEmail() {
+        return email;
+    }
+
+    public void setEmail(Email email) {
+        this.email = email;
+    }
+
+    public Person(String firstName, String lastName, Byte[] image, Email email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.image = image;
+        this.email = email;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -60,7 +77,8 @@ public class Person extends BaseEntity {
         if (firstName != null ? !firstName.equals(person.firstName) : person.firstName != null) return false;
         if (lastName != null ? !lastName.equals(person.lastName) : person.lastName != null) return false;
         // Probably incorrect - comparing Object[] arrays with Arrays.equals
-        return Arrays.equals(image, person.image);
+        if (!Arrays.equals(image, person.image)) return false;
+        return email != null ? email.equals(person.email) : person.email == null;
     }
 
     @Override
@@ -69,6 +87,7 @@ public class Person extends BaseEntity {
         result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
         result = 31 * result + Arrays.hashCode(image);
+        result = 31 * result + (email != null ? email.hashCode() : 0);
         return result;
     }
 
@@ -78,6 +97,7 @@ public class Person extends BaseEntity {
                 "firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", image=" + Arrays.toString(image) +
+                ", email=" + email +
                 '}';
     }
 }
