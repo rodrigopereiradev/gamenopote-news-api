@@ -13,27 +13,25 @@ public class Comment extends BaseEntity {
 
     @Column(name = "comment_created_in")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date created_in;
+    private Date createdIn;
 
     @Column(name = "comment_updated_in")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date updated_in;
+    private Date updatedIn;
 
     @Column(name = "comment_is_enabled")
     private Boolean isEnabled;
 
     @ManyToOne()
-    @JoinColumn()
     private User user;
 
     @ManyToOne
-    @JoinColumn
     private News news;
 
-    public Comment(String text, Date created_in, Date updated_in, Boolean isEnabled, User user, News news) {
+    public Comment(String text, Date createdIn, Date updatedIn, Boolean isEnabled, User user, News news) {
         this.text = text;
-        this.created_in = created_in;
-        this.updated_in = updated_in;
+        this.createdIn = createdIn;
+        this.updatedIn = updatedIn;
         this.isEnabled = isEnabled;
         this.user = user;
         this.news = news;
@@ -47,20 +45,20 @@ public class Comment extends BaseEntity {
         this.text = text;
     }
 
-    public Date getCreated_in() {
-        return created_in;
+    public Date getCreatedIn() {
+        return createdIn;
     }
 
-    public void setCreated_in(Date created_in) {
-        this.created_in = created_in;
+    public void setCreatedIn(Date createdIn) {
+        this.createdIn = createdIn;
     }
 
-    public Date getUpdated_in() {
-        return updated_in;
+    public Date getUpdatedIn() {
+        return updatedIn;
     }
 
-    public void setUpdated_in(Date updated_in) {
-        this.updated_in = updated_in;
+    public void setUpdatedIn(Date updatedIn) {
+        this.updatedIn = updatedIn;
     }
 
     public Boolean getEnabled() {
@@ -96,8 +94,8 @@ public class Comment extends BaseEntity {
         Comment comment = (Comment) o;
 
         if (text != null ? !text.equals(comment.text) : comment.text != null) return false;
-        if (created_in != null ? !created_in.equals(comment.created_in) : comment.created_in != null) return false;
-        if (updated_in != null ? !updated_in.equals(comment.updated_in) : comment.updated_in != null) return false;
+        if (createdIn != null ? !createdIn.equals(comment.createdIn) : comment.createdIn != null) return false;
+        if (updatedIn != null ? !updatedIn.equals(comment.updatedIn) : comment.updatedIn != null) return false;
         if (isEnabled != null ? !isEnabled.equals(comment.isEnabled) : comment.isEnabled != null) return false;
         if (user != null ? !user.equals(comment.user) : comment.user != null) return false;
         return news != null ? news.equals(comment.news) : comment.news == null;
@@ -107,8 +105,8 @@ public class Comment extends BaseEntity {
     public int hashCode() {
         int result = super.hashCode();
         result = 31 * result + (text != null ? text.hashCode() : 0);
-        result = 31 * result + (created_in != null ? created_in.hashCode() : 0);
-        result = 31 * result + (updated_in != null ? updated_in.hashCode() : 0);
+        result = 31 * result + (createdIn != null ? createdIn.hashCode() : 0);
+        result = 31 * result + (updatedIn != null ? updatedIn.hashCode() : 0);
         result = 31 * result + (isEnabled != null ? isEnabled.hashCode() : 0);
         result = 31 * result + (user != null ? user.hashCode() : 0);
         result = 31 * result + (news != null ? news.hashCode() : 0);
@@ -119,8 +117,8 @@ public class Comment extends BaseEntity {
     public String toString() {
         return "Comment{" +
                 "text='" + text + '\'' +
-                ", created_in=" + created_in +
-                ", updated_in=" + updated_in +
+                ", createdIn=" + createdIn +
+                ", updatedIn=" + updatedIn +
                 ", isEnabled=" + isEnabled +
                 ", user=" + user +
                 ", news=" + news +

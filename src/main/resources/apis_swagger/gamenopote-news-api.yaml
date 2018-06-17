@@ -312,6 +312,9 @@ definitions:
         description: posting date of comment
         type: string
         format: date-time
+      time_passed:
+        description: how much time has passed since the comment was posted
+        type: string
   Media:
     description: a url of image or video
     type: object
@@ -325,7 +328,7 @@ definitions:
       type:
         description: media's type
         type: string
-        enum: 
+        enum:
           - video
           - image
   Tag:
@@ -337,8 +340,5 @@ definitions:
         type: string
       name:
         description: tag's name
-        type: string
-      time_passed:
-        description: how much time has passed since the comment was posted
         type: string
 

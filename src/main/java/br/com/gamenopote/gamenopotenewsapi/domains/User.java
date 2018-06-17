@@ -25,7 +25,7 @@ public class User extends BaseEntity {
 
     @Column(name = "user_updated_in")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date updated_in;
+    private Date updatedIn;
 
     @Column(name = "user_is_enabled")
     private Boolean isEnabled;
@@ -35,20 +35,18 @@ public class User extends BaseEntity {
     private Person person;
 
     @OneToMany(mappedBy = "user")
-    @JoinColumn(name = "user_id")
     private List<Comment> comments;
 
     @OneToMany(mappedBy = "user")
-    @JoinColumn(name = "user_id")
     private List<News> news;
 
-    public User(String userName, String password, UserType type, Date createdIn, Date updated_in,
-                Boolean isEnabled, Person person, List<Comment> comments, List<News> news) {
+    public User(String userName, String password, UserType type, Date createdIn, Date updatedIn, Boolean isEnabled,
+                Person person, List<Comment> comments, List<News> news) {
         this.userName = userName;
         this.password = password;
         this.type = type;
         this.createdIn = createdIn;
-        this.updated_in = updated_in;
+        this.updatedIn = updatedIn;
         this.isEnabled = isEnabled;
         this.person = person;
         this.comments = comments;
@@ -87,15 +85,15 @@ public class User extends BaseEntity {
         this.createdIn = createdIn;
     }
 
-    public Date getUpdated_in() {
-        return updated_in;
+    public Date getUpdatedIn() {
+        return updatedIn;
     }
 
-    public void setUpdated_in(Date updated_in) {
-        this.updated_in = updated_in;
+    public void setUpdatedIn(Date updatedIn) {
+        this.updatedIn = updatedIn;
     }
 
-    public Boolean isEnabled() {
+    public Boolean getEnabled() {
         return isEnabled;
     }
 
@@ -132,14 +130,12 @@ public class User extends BaseEntity {
         if (this == o) return true;
         if (!(o instanceof User)) return false;
         if (!super.equals(o)) return false;
-
         User user = (User) o;
-
         if (userName != null ? !userName.equals(user.userName) : user.userName != null) return false;
         if (password != null ? !password.equals(user.password) : user.password != null) return false;
         if (type != user.type) return false;
         if (createdIn != null ? !createdIn.equals(user.createdIn) : user.createdIn != null) return false;
-        if (updated_in != null ? !updated_in.equals(user.updated_in) : user.updated_in != null) return false;
+        if (updatedIn != null ? !updatedIn.equals(user.updatedIn) : user.updatedIn != null) return false;
         if (isEnabled != null ? !isEnabled.equals(user.isEnabled) : user.isEnabled != null) return false;
         if (person != null ? !person.equals(user.person) : user.person != null) return false;
         if (comments != null ? !comments.equals(user.comments) : user.comments != null) return false;
@@ -153,7 +149,7 @@ public class User extends BaseEntity {
         result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + (type != null ? type.hashCode() : 0);
         result = 31 * result + (createdIn != null ? createdIn.hashCode() : 0);
-        result = 31 * result + (updated_in != null ? updated_in.hashCode() : 0);
+        result = 31 * result + (updatedIn != null ? updatedIn.hashCode() : 0);
         result = 31 * result + (isEnabled != null ? isEnabled.hashCode() : 0);
         result = 31 * result + (person != null ? person.hashCode() : 0);
         result = 31 * result + (comments != null ? comments.hashCode() : 0);
@@ -168,7 +164,7 @@ public class User extends BaseEntity {
                 ", password='" + password + '\'' +
                 ", type=" + type +
                 ", createdIn=" + createdIn +
-                ", updated_in=" + updated_in +
+                ", updatedIn=" + updatedIn +
                 ", isEnabled=" + isEnabled +
                 ", person=" + person +
                 ", comments=" + comments +
